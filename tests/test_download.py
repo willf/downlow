@@ -1,4 +1,4 @@
-from downlow.foo import foo
+from downlow.download import foo
 
 
 def test_foo():

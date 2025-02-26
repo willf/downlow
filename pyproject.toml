@@ -42,7 +42,6 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 
-
 [tool.mypy]
 files = ["src"]
 disallow_untyped_defs = true
@@ -82,7 +81,8 @@ select = [
     # mccabe
     "C90",
     # pycodestyle
-    "E", "W",
+    "E",
+    "W",
     # pyflakes
     "F",
     # pygrep-hooks
@@ -114,3 +114,8 @@ skip_empty = true
 branch = true
 source = ["src"]
 
+[project.scripts]
+downlow = "downlow.download:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/downlow"]
