@@ -19,6 +19,7 @@ classifiers = [
 ]
 dependencies = [
     "click>=8.1.8",
+    "loguru>=0.7.3",
     "rich>=13.9.4",
     "tldextract>=5.1.3",
 ]

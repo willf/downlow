@@ -1,17 +1,20 @@
 import os
 import time
-from urllib.parse import urlparse
+from urllib.parse import ParseResult, urlparse
 
-from rich.progress import track
 import tldextract
+from rich.progress import track
 
 
-def humanize_bytes(num_bytes):
+def humanize_bytes(num_bytes: int) -> str:
     """
     Convert a number of bytes into a human-readable format (e.g., KB, MB, GB).
 
-    :param num_bytes: Number of bytes
-    :return: Human-readable string
+    Args:
+        num_bytes: Number of bytes
+
+    Return:
+        Human-readable string
     """
     if num_bytes < 1024:
         return f"{num_bytes} bytes"
@@ -25,7 +28,29 @@ def humanize_bytes(num_bytes):
         return f"{num_bytes / 1024**4:.2f} Tb"
 
 
-def longest_common_prefix(strs):
+def longest_common_prefix(strs: list[str]) -> str:
+    """
+    Find the longest common prefix string amongst an array of strings.
+    If there is no common prefix, return an empty string "".
+
+    Args:
+        strs: List of strings
+
+    Returns:
+        The longest common prefix
+
+    Examples:
+    > longest_common_prefix(["flower", "flow", "flight"])
+    "fl"
+    > longest_common_prefix(["dog", "racecar", "car"])
+    ""
+    > longest_common_prefix(["interspecies", "interstellar", "interstate"])
+    "inters"
+    > longest_common_prefix(["throne", "throne"])
+    "throne"
+    > longest_common_prefix(["throne", "dungeon"])
+    ""
+    """
     if not strs:
         return ""
 
@@ -43,9 +68,18 @@ def longest_common_prefix(strs):
     return prefix
 
 
-def sleep(seconds):
+def sleep(seconds: float | int) -> None:
+    """
+    Sleep for a given number of seconds, with progress tracking.
+
+    Args:
+        seconds: Number of seconds to sleep
+
+    Returns:
+        None
+    """
     if seconds:
-        time_slept = 0
+        time_slept = 0.00
         seconds_times_ten = int(seconds * 10)
         for _ in track(range(seconds_times_ten), description="Sleeping"):
             time.sleep(0.01)
@@ -54,13 +88,41 @@ def sleep(seconds):
                 break
 
 
-def get_tld(url):
+def get_tld(url: str) -> str:
+    """
+    Get the top-level domain (TLD) of a URL.
+
+    Args:
+        url: The URL to extract the TLD from.
+
+    Returns:
+        The TLD of the URL, or an empty string if it cannot be determined.
+
+    Examples:
+    > get_tld("https://api.epa.gov/easey/bulk-files")
+    "gov"
+    > get_tld("https://www.example.com")
+    "com"
+    > get_tld("http://example.co.uk")
+    "co.uk"
+    > get_tld("ftp://example")
+    ""
+    """
     extracted = tldextract.extract(url)
     return extracted.suffix
 
 
-def is_valid_url(url):
+def is_valid_url(url: str) -> bool | ParseResult:
     """
+    Is this a valid URL, for our puposes?
+
+    Args:
+        url: The URL to check.
+
+    Returns:
+        True if the URL is valid, False otherwise.
+
+    Examples:
     > is_valid_url("https://api.epa.gov/easey/bulk-files")
     True
     > is_valid_url("https://api.epa.gov/easey/bulk-files/")
@@ -71,11 +133,20 @@ def is_valid_url(url):
     parsed = urlparse(url)
     if all([parsed.scheme, parsed.netloc]) and get_tld(url):
         return parsed
-    return None
+    return False
 
 
-def is_file_with_extension(path):
+def is_file_with_extension(path: str) -> bool:
     """
+    Is this a file with an extension?
+
+    Args:
+        path: The path to check.
+
+    Returns:
+        True if the path points to a file with an extension, False otherwise.
+
+    Examples:
     > is_file_with_extension("john")
     False
     > is_file_with_extension("john.txt")

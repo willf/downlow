@@ -1,8 +1,7 @@
-from downlow.utils import humanize_bytes
-from downlow.utils import longest_common_prefix
 from unittest.mock import patch
+
+from downlow.utils import get_tld, humanize_bytes, is_valid_url, longest_common_prefix
 from downlow.utils import sleep as util_sleep
-from downlow.utils import is_valid_url, get_tld
 
 
 def test_humanize_bytes():
@@ -47,11 +46,11 @@ def test_get_tld():
 
 
 def test_is_valid_url():
-    assert is_valid_url("https://api.epa.gov/easey/bulk-files") is not None
-    assert is_valid_url("https://api.epa.gov/easey/bulk-files/") is not None
-    assert is_valid_url("http://example.com") is not None
-    assert is_valid_url("ftp://example.com") is not None
-    assert is_valid_url("Bob") is None
-    assert is_valid_url("http://") is None
-    assert is_valid_url("http://example") is None
-    assert is_valid_url("example.com") is None
+    assert is_valid_url("https://api.epa.gov/easey/bulk-files") is not False
+    assert is_valid_url("https://api.epa.gov/easey/bulk-files/") is not False
+    assert is_valid_url("http://example.com") is not False
+    assert is_valid_url("ftp://example.com") is not False
+    assert is_valid_url("Bob") is False
+    assert is_valid_url("http://") is False
+    assert is_valid_url("http://example") is False
+    assert is_valid_url("example.com") is False
