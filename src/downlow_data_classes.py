@@ -130,7 +130,7 @@ class DownloadResult:
             and self.rate_limits.reset_after.state == RateLimitState.KNOWN
         ):
             if self.rate_limits.reset_after.n > 1000000000:
-                duration = self.rate_limits.reset_after.n - time.time
+                duration = self.rate_limits.reset_after.n - time.time()
             else:
                 duration = self.rate_limits.reset_after.n
             # we can only do n calls in duration seconds, so we should wait
