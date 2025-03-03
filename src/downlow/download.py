@@ -196,10 +196,11 @@ def main(
     reverse: bool,
     randomize: bool,
     log_file: str,
-    log_level: str,
-    max_tries: int,
-    dry_run: bool,
+    log_level: str = "INFO",
+    max_tries: int = 10,
+    dry_run: bool = False,
 ) -> None:
+    logger.remove()
     logger.add(sys.stdout, level=log_level.upper())
     if log_file:
         logger.add(log_file, level=log_level.upper())
