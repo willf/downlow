@@ -130,7 +130,7 @@ class DownloadResult:
             and self.rate_limits.reset_after.state == RateLimitState.KNOWN
         ):
             if self.rate_limits.reset_after.n > 1000000000:
-                duration = self.rate_limits.reset_after.n - time.time  # type: ignore
+                duration = self.rate_limits.reset_after.n - time.time
             else:
                 duration = self.rate_limits.reset_after.n
             # we can only do n calls in duration seconds, so we should wait
@@ -139,11 +139,11 @@ class DownloadResult:
         ## if the status is 429, a server problem, or a connection problem
         ## we should wait 2^attempt_number seconds
         if self.status_code in [429, 503, CONNECTION_ERROR]:
-            return 2**self.attempt_number  # type: ignore
+            return 2**self.attempt_number
         ## if we don't know what to do, and we are at attempt number > 0, we
         ## should wait 2^attempt_number seconds
         if self.attempt_number > 1:
-            return 2 ** (self.attempt_number - 1)  # type: ignore
+            return 2 ** (self.attempt_number - 1)
         ## if we know *nothing* then don't wait
         return 0
 
