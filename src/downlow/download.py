@@ -1,4 +1,4 @@
-"""Main driver program for the downloader."""
+"""Download a list of URLs with tenacity and grace."""
 
 import os
 import random
@@ -27,16 +27,6 @@ from downlow.utils import (
 
 
 class Downloader:
-    """
-    Download files from a list of URLs.
-
-    Args:
-        urls: List of URLs to download.
-        download_dir: Directory to save the downloaded files.
-        prefixes_to_remove: List of prefixes to remove from the URL path when saving the file.
-        max_tries: Maximum number of retries on request failures.
-    """
-
     def __init__(
         self,
         urls: list[str],
@@ -226,21 +216,8 @@ def main(
     dry_run: bool = False,
 ) -> None:
     """
-    Main entry point for the downloader.
+    Download a list of URLs with tenacity and grace.
 
-    Args:
-        url_file: Path to a file containing URLs (defaults to stdin).
-        download_dir: Directory to save downloads.
-        prefixes_to_remove: Prefixes to remove from the URL path when saving the file.
-        auto_remove_prefix: Remove the longest common prefix from the URL paths.
-        regex: Regular expression to match URLs to download.
-        reverse: Reverse the regex match, i.e., download URLs that do not match the regex.
-        randomize: Randomize the order of the URLs.
-        log_file: Path to a file to log output.
-        log_level: Logging level.
-        max_tries: Maximum number of retries on request failures.
-        dry_run: If set, do not actually download the files, just log what would
-            be done.
     """
     logger.remove()
     logger.add(sys.stdout, level=log_level.upper())

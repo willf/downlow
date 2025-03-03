@@ -1,6 +1,6 @@
 [project]
 name = "downlow"
-version = "0.0.4"
+version = "0.0.5"
 description = "A bulk downloader with tenacity and grace"
 authors = [{ name = "Will Fitzgerald", email = "will.fitzgerald@gmail.com" }]
 readme = "README.md"

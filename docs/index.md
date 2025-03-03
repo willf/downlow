@@ -45,23 +45,22 @@ download a file before giving up, using exponential backoff.
 
 ## Installation
 
-This script requires Python 3.8 or later, and the `uv` package. This
-is not a package yet, so you have to clone the repository and run it
-from the repo directory.
-
-You can install it with:
+This can installed using `pipx` or `uv`:
 
 ```bash
-$ git clone git@github.com:willf/downlow.git
-$ cd downlow
-$ uv sync
+$ pipx install downlow
+```
+
+or
+
+```bash
+$ uv tool install downlow
 ```
 
 ## Usage
 
 ```bash
-$ uv run downlow --help
-Usage: downlow [OPTIONS]
+$ downlow --help
 
 Usage: downlow [OPTIONS]
 
