@@ -106,7 +106,7 @@ def test_wait_time_policy_various_failures():
             skip=False,
             attempt_number=4,
         )
-        assert result.wait_time_policy() == 16  # (2 ** 4)
+        assert result.wait_time_policy() == 8  # 2 ** (4-1)
 
 
 def test_wait_time_policy_unknown_infomation():
