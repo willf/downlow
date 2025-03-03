@@ -1,4 +1,4 @@
-# downlow: A Bulk Downloader with Grace and Tenacity
+# downlow: A bulk downloader with tenacity and grace
 
 [![Build status](https://img.shields.io/github/actions/workflow/status/willf/downlow/main.yml?branch=main)](https://github.com/willf/downlow/actions/workflows/main.yml?query=branch%3Amain)
 [![Commit activity](https://img.shields.io/github/commit-activity/m/willf/downlow)](https://img.shields.io/github/commit-activity/m/willf/downlow)
@@ -91,7 +91,7 @@ Examples:
 
 ```bash
 $ downlow --url-file urls.txt --download-dir downloads --auto-remove-prefix
-$ cat urls.txt | uv run downlow --download-dir downloads --max-tries 5
+$ cat urls.txt | downlow --download-dir downloads --max-tries 5
 ```
 
 ## Examplation of the options
