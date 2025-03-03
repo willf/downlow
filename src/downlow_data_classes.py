@@ -142,10 +142,11 @@ class DownloadResult:
             return 2**self.attempt_number
         ## if we don't know what to do, and we are at attempt number > 0, we
         ## should wait 2^attempt_number seconds
-        if self.attempt_number > 1:
+        elif self.attempt_number > 1:
             return 2 ** (self.attempt_number - 1)
         ## if we know *nothing* then don't wait
-        return 0
+        else:
+            return 0
 
 
 def get_rate_limit_key(regex: re.Pattern, headers: dict) -> RateLimitPair:
