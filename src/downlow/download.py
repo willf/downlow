@@ -2,6 +2,7 @@ import os
 import random
 import re
 import sys
+from typing import Union
 from urllib.parse import urlparse
 
 import click
@@ -28,7 +29,7 @@ class Downloader:
         self,
         urls: list[str],
         download_dir: str,
-        prefixes_to_remove: list[str] | None = None,
+        prefixes_to_remove: Union[list[str], None] = None,
         max_tries: int = 10,
     ) -> None:
         self.urls = urls
