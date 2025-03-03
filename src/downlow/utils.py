@@ -1,5 +1,6 @@
 import os
 import time
+from typing import Union
 from urllib.parse import ParseResult, urlparse
 
 import tldextract
@@ -68,7 +69,7 @@ def longest_common_prefix(strs: list[str]) -> str:
     return prefix
 
 
-def sleep(seconds: float | int) -> None:
+def sleep(seconds: Union[int, float]) -> None:
     """
     Sleep for a given number of seconds, with progress tracking.
 
@@ -112,7 +113,7 @@ def get_tld(url: str) -> str:
     return extracted.suffix
 
 
-def is_valid_url(url: str) -> bool | ParseResult:
+def is_valid_url(url: str) -> Union[bool, ParseResult]:
     """
     Is this a valid URL, for our puposes?
 
