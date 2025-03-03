@@ -9,18 +9,18 @@ import click
 import requests  # type: ignore[import-untyped]
 from loguru import logger
 
+from downlow.downlow_data_classes import (
+    CONNECTION_ERROR,
+    DownloadResult,
+    blank_rate_limits,
+    get_rate_limits,
+)
 from downlow.utils import (
     humanize_bytes,
     is_file_with_extension,
     is_valid_url,
     longest_common_prefix,
     sleep,
-)
-from downlow_data_classes import (
-    CONNECTION_ERROR,
-    DownloadResult,
-    blank_rate_limits,
-    get_rate_limits,
 )
 
 

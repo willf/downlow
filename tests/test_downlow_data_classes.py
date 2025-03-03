@@ -1,6 +1,6 @@
 import re
 
-from downlow_data_classes import (
+from downlow.downlow_data_classes import (
     CONNECTION_ERROR,
     MAX_WAIT_TIME,
     DownloadResult,
