@@ -1,4 +1,4 @@
-# downlow
+# downlow: A Bulk Downloader with Grace and Tenacity
 
 [![Release](https://img.shields.io/github/v/release/willf/downlow)](https://img.shields.io/github/v/release/willf/downlow)
 [![Build status](https://img.shields.io/github/actions/workflow/status/willf/downlow/main.yml?branch=main)](https://github.com/willf/downlow/actions/workflows/main.yml?query=branch%3Amain)
@@ -8,9 +8,7 @@
 A bulk downloader with tenacity and grace
 
 - **Github repository**: <https://github.com/willf/downlow/>
-- **Documentation** <https://willf.github.io/downlow/>
-
-# dl: A Bulk Downloader with Grace and Tenacity
+- **Documentation** <https://pypi.org/project/downlow/>
 
 Attempt to bulk download a list of URLs with some tenacity, but also
 some grace. Attempts to honor the server's rate limiting and retries
