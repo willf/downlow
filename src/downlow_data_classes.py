@@ -139,15 +139,11 @@ class DownloadResult:
             return duration / self.rate_limits.remaining.n
         ## if the status is 429, a server problem, or a connection problem
         ## we should wait 2^attempt_number seconds
-        if self.status_code in [429, 503, CONNECTION_ERROR]:
-            return 2**self.attempt_number
-        ## if we don't know what to do, and we are at attempt number > 0, we
-        ## should wait 2^attempt_number seconds
-        elif self.attempt_number > 1:
+        ## Or, we are just at attempt 2 etc.
+        if self.status_code in [429, 503, CONNECTION_ERROR] or self.attempt_number > 1:
             return 2 ** (self.attempt_number - 1)
         ## if we know *nothing* then don't wait
-        else:
-            return 0
+        return 0
 
 
 def get_rate_limit_key(regex: re.Pattern, headers: dict) -> RateLimitPair:
