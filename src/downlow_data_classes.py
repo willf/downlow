@@ -141,7 +141,7 @@ class DownloadResult:
         ## we should wait 2^attempt_number seconds
         ## Or, we are just at attempt 2 etc.
         if self.status_code in [429, 503, CONNECTION_ERROR] or self.attempt_number > 1:
-            return 2 ** (self.attempt_number - 1)
+            return 2 ** (self.attempt_number - 1)  # type: ignore[no-any-return]
         ## if we know *nothing* then don't wait
         return 0
 
