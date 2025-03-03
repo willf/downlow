@@ -2,6 +2,7 @@ import enum
 import re
 import time
 from dataclasses import dataclass
+from typing import Union
 
 MAX_WAIT_TIME = 2**20  # seconds, about 292 hours
 CONNECTION_ERROR = -1  # magic number for connection error
@@ -18,7 +19,7 @@ class RateLimitState(enum.Enum):
     KNOWN = 2
 
 
-def find_key_matching(headers: dict[str, str], regex: re.Pattern) -> str | None:
+def find_key_matching(headers: dict[str, str], regex: re.Pattern) -> Union[None, str]:
     """
     Given a regular expression, find the first key in the headers that matches
     the regular expression.
@@ -103,7 +104,7 @@ class DownloadResult:
     skip: bool
     attempt_number: int = 0
 
-    def wait_time_policy(self) -> float | int:
+    def wait_time_policy(self) -> Union[int, float]:
         """
         Define the wait time policy for the download result.
 
