@@ -90,7 +90,7 @@ Options:
 Examples:
 
 ```bash
-$ uv run downlow --url-file urls.txt --download-dir downloads --auto-remove-prefix
+$ downlow --url-file urls.txt --download-dir downloads --auto-remove-prefix
 $ cat urls.txt | uv run downlow --download-dir downloads --max-tries 5
 ```
 
