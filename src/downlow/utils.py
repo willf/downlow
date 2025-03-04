@@ -7,7 +7,7 @@ import tldextract
 from rich.progress import track
 
 
-def humanize_bytes(num_bytes: int) -> str:
+def humanize_bytes(num_bytes: Union[int, float]) -> str:
     """
     Convert a number of bytes into a human-readable format (e.g., KB, MB, GB).
 
@@ -76,7 +76,7 @@ def humanize_rate(count: int, seconds: Union[int, float]) -> str:
     "1.00/s"
     """
 
-    def rates(n, seconds):
+    def rates(n: int, seconds: Union[int, float]) -> tuple[float, float, float, float]:
         rate_per_second = n / seconds
         rate_per_minute = (n * 60) / seconds
         rate_per_hour = (n * 3600) / seconds
