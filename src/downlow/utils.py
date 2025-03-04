@@ -7,7 +7,7 @@ import tldextract
 from rich.progress import track
 
 
-def humanize_bytes(num_bytes: int) -> str:
+def humanize_bytes(num_bytes: Union[int, float]) -> str:
     """
     Convert a number of bytes into a human-readable format (e.g., KB, MB, GB).
 
@@ -27,6 +27,70 @@ def humanize_bytes(num_bytes: int) -> str:
         return f"{num_bytes / 1024**3:.2f} Gb"
     else:
         return f"{num_bytes / 1024**4:.2f} Tb"
+
+
+def humanize_seconds(seconds: Union[int, float]) -> str:
+    """
+    Convert a number of seconds into a human-readable
+    format (e.g., 1h 10m 30s).
+
+    Args:
+        seconds: Number of seconds
+
+    Returns:
+        Human-readable string
+    """
+    hours, remainder = divmod(seconds, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    formatted = ""
+    if hours:
+        formatted += f"{int(hours)}h "
+    if minutes:
+        formatted += f"{int(minutes)}m "
+    if seconds:
+        formatted += f"{int(seconds)}s"
+    return formatted.strip()
+
+
+def humanize_rate(count: int, seconds: Union[int, float]) -> str:
+    """
+    Convert a rate (count per second) into a human-readable format.
+
+    Args:
+        count: Number of items
+        seconds: Number of seconds
+
+    Returns:
+        Human-readable string
+
+    Examples:
+    >>> humanize_rate(100, 1)
+    "100.00/s"
+    >>> humanize_rate(100, 10)
+    "10.00/s"
+    >>> humanize_rate(100, 3600)
+    "1.67/m"
+    >>> humanize_rate(100, 86400)
+    "4.17/h"
+    >>> humanize_rate(86400, 86400)
+    "1.00/s"
+    """
+
+    def rates(n: int, seconds: Union[int, float]) -> tuple[float, float, float, float]:
+        rate_per_second = n / seconds
+        rate_per_minute = (n * 60) / seconds
+        rate_per_hour = (n * 3600) / seconds
+        rate_per_day = (n * 86400) / seconds
+        return rate_per_second, rate_per_minute, rate_per_hour, rate_per_day
+
+    all_rates = rates(count, seconds)
+    if all_rates[0] >= 1:
+        return f"{all_rates[0]:.2f}/s"
+    if all_rates[1] >= 1:
+        return f"{all_rates[1]:.2f}/m"
+    if all_rates[2] >= 1:
+        return f"{all_rates[2]:.2f}/h"
+    return f"{all_rates[3]:.2f}/d"
 
 
 def longest_common_prefix(strs: list[str]) -> str:
