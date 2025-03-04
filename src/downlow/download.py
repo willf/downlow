@@ -4,6 +4,7 @@ import os
 import random
 import re
 import sys
+import time
 from typing import Union
 from urllib.parse import urlparse
 
@@ -19,6 +20,8 @@ from downlow.downlow_data_classes import (
 )
 from downlow.utils import (
     humanize_bytes,
+    humanize_rate,
+    humanize_seconds,
     is_file_with_extension,
     is_valid_url,
     longest_common_prefix,
@@ -41,6 +44,8 @@ class Downloader:
         self.number_of_failed_downloads = 0
         self.number_of_existing_files = 0
         self.max_tries = max_tries
+        self.start_time = time.time()
+        self.bytes_downloaded = 0.0
 
     def download_file(self, url: str, attempt_number: int) -> DownloadResult:  # noqa: C901
         """
@@ -88,6 +93,7 @@ class Downloader:
         sz = "Unknown"
         if content_length:
             sz = humanize_bytes(int(content_length))
+            self.bytes_downloaded += int(content_length)
         logger.debug(f"Content length: {sz}")
         download_result = DownloadResult(url, success, status_code, rate_limits, False, attempt_number)
         if success:
@@ -102,8 +108,21 @@ class Downloader:
                 logger.error(f"Error writing to {local_path}: {e}")
                 self.number_of_failed_downloads += 1
                 return download_result
-            logger.info(f"Downloaded {url} to {local_path}; Content size: {sz}")
+            # Preserve the file modification time
+            if "Last-Modified" in r.headers:
+                last_modified = r.headers["Last-Modified"]
+                mod_time = time.mktime(time.strptime(last_modified, "%a, %d %b %Y %H:%M:%S %Z"))
+                os.utime(local_path, (mod_time, mod_time))
             self.number_of_successful_downloads += 1
+            time_elapsed = time.time() - self.start_time
+            if time_elapsed == 0:
+                time_elapsed = 0.1
+            byte_rate_per_minute = humanize_bytes(self.bytes_downloaded / time_elapsed * 60)
+            file_rate = humanize_rate(self.number_of_successful_downloads, time_elapsed)
+            logger.info(
+                f"Downloaded {url} to {local_path}; Content size: {sz}; File rate: {file_rate}; Content rate: {byte_rate_per_minute}/m; time elapsed: {humanize_seconds(time_elapsed)}"
+            )
+
         else:
             logger.error(f"Error downloading {url}, result: {download_result}")
             self.number_of_failed_downloads += 1

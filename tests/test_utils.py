@@ -1,6 +1,6 @@
 from unittest.mock import patch
 
-from downlow.utils import get_tld, humanize_bytes, is_valid_url, longest_common_prefix
+from downlow.utils import get_tld, humanize_bytes, humanize_rate, humanize_seconds, is_valid_url, longest_common_prefix
 from downlow.utils import sleep as util_sleep
 
 
@@ -14,6 +14,25 @@ def test_humanize_bytes():
     assert humanize_bytes(1572864) == "1.50 Mb"
     assert humanize_bytes(1610612736) == "1.50 Gb"
     assert humanize_bytes(1649267441664) == "1.50 Tb"
+
+
+def test_humanize_seconds():
+    assert humanize_seconds(0) == ""
+    assert humanize_seconds(1) == "1s"
+    assert humanize_seconds(60) == "1m"
+    assert humanize_seconds(3600) == "1h"
+    assert humanize_seconds(3661) == "1h 1m 1s"
+    assert humanize_seconds(3723) == "1h 2m 3s"
+    assert humanize_seconds(86400) == "24h"
+    assert humanize_seconds(90061) == "25h 1m 1s"
+
+
+def test_humanize_rate():
+    assert humanize_rate(100, 1) == "100.00/s"
+    assert humanize_rate(100, 10) == "10.00/s"
+    assert humanize_rate(100, 3600) == "1.67/m"
+    assert humanize_rate(100, 86400) == "4.17/h"
+    assert humanize_rate(86400, 86400) == "1.00/s"
 
 
 def test_longest_common_prefix():
