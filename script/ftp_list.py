@@ -32,11 +32,10 @@ def get_page_content(url):
         return None
     try:
         response = requests.get(url, timeout=5 * 60)
-        response.raise_for_status()
-        return response.read()
     except urllib.error.URLError as e:
         logger.error(f"Error fetching URL {url}: {e}")
         return None
+    return response.text
 
 
 def determine_link_type(link_text, url):
