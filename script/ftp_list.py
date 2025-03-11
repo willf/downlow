@@ -1,3 +1,4 @@
+import functools
 import os
 import re
 import sys
@@ -7,9 +8,12 @@ from enum import Enum, auto
 from urllib.parse import urljoin
 
 import click
+import dotenv
 import requests
 from bs4 import BeautifulSoup
 from loguru import logger
+
+dotenv.load_dotenv()
 
 
 class LinkType(Enum):
@@ -22,6 +26,14 @@ class LinkType(Enum):
     UNKNOWN = auto()
 
 
+@functools.lru_cache(maxsize=128)
+def headers(bearer_token=None):
+    bearer_token = bearer_token or os.getenv("FTP_LIST_BEARER_TOKEN")
+    if not bearer_token:
+        raise ValueError("Bearer token")
+    return {"Authorization": f"Bearer {bearer_token}"}
+
+
 def get_page_content(url):
     """Fetch the content of a URL."""
     parsed = urllib.parse.urlparse(url)
@@ -31,7 +43,7 @@ def get_page_content(url):
         logger.error(f"Unsupported scheme: {parsed.scheme}")
         return None
     try:
-        response = requests.get(url, timeout=5 * 60)
+        response = requests.get(url, timeout=5 * 60, headers=headers())
     except urllib.error.URLError as e:
         logger.error(f"Error fetching URL {url}: {e}")
         return None
